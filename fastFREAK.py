@@ -11,7 +11,7 @@ def freak_feature_matching(img1_path, img2_path):
             raise ValueError("One or both image paths are invalid or images cannot be loaded.")
 
         # Step 1: Detect keypoints (BRISK works well with FREAK)
-        brisk = cv2.BRISK_create()
+        brisk = cv2.xfeatures2d.BRISK_create()
         kp1 = brisk.detect(img1, None)
         kp2 = brisk.detect(img2, None)
 

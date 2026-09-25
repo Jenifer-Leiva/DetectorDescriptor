@@ -22,7 +22,7 @@ image2 = cv.imread(filename = 'par12.jpg',
 # Retrieved 2026-09-24, License - CC BY-SA 4.0
 
 # Initiate BRISK descriptor
-BRISK = cv.BRISK_create()
+BRISK = cv.xfeatures2d.BRISK_create()
 
 # Find the keypoints and compute the descriptors for input and training-set image
 keypoints1, descriptors1 = BRISK.detectAndCompute(image1, None)
