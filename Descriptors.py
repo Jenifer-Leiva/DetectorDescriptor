@@ -3,8 +3,8 @@ import numpy as np
 import time
 import matplotlib.pyplot as plt
 
-image1 = cv.imread("./img/par11.jpg")
-image2 = cv.imread("./img/par12.jpg")
+image1 = cv.imread("./img/par51.jpg")
+image2 = cv.imread("./img/par52.jpg")
 
 # ============================================================
 # CONFIGURACIÓN FAST
@@ -43,20 +43,45 @@ def create_descriptor(name):
     if name == "ORB":
 
         return cv.ORB_create(
-            nfeatures=1000
+            nfeatures=1000,
+            scaleFactor=1.2,
+            nlevels=8,
+            edgeThreshold=31,
+            firstLevel=0,
+            WTA_K=2,
+            scoreType=cv.ORB_HARRIS_SCORE,
+            patchSize=31,
+            fastThreshold=20
         )
 
     elif name == "BRISK":
 
-        return cv.xfeatures2d.BRISK_create()
+        return cv.BRISK_create(
+            thresh=30,
+            octaves=3,
+            patternScale=1.0
+        )
 
     elif name == "FREAK":
 
-        return cv.xfeatures2d.FREAK_create()
+        return cv.xfeatures2d.FREAK_create(
+            orientationNormalized=True,
+            scaleNormalized=True,
+            patternScale=22.0,
+            nOctaves=4
+        )
 
     elif name == "AKAZE":
 
-        return cv.xfeatures2d.AKAZE_create()
+        return cv.AKAZE_create(
+            descriptor_type=cv.AKAZE_DESCRIPTOR_MLDB,
+            descriptor_size=0,
+            descriptor_channels=3,
+            threshold=0.001,
+            nOctaves=4,
+            nOctaveLayers=4,
+            diffusivity=cv.KAZE_DIFF_PM_G2
+        )
 
     else:
 
@@ -71,13 +96,13 @@ def create_descriptor(name):
 
 def detect_and_describe(image, descriptor_name):
 
-    # SIEMPRE FAST
+    #  FAST
     keypoints = detect_fast(image)
 
     # Descriptor seleccionado
     descriptor = create_descriptor(descriptor_name)
 
-    # El descriptor utiliza los keypoints encontrados por FAST
+    # El descriptor utiliza  keypoints encontrados por FAST
     keypoints, descriptors = descriptor.compute(
         image,
         keypoints
