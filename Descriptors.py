@@ -3,8 +3,8 @@ import numpy as np
 import time
 import matplotlib.pyplot as plt
 
-image1 = cv.imread("./img/par51.jpg")
-image2 = cv.imread("./img/par52.jpg")
+image1 = cv.imread("./img/par21.jpg")
+image2 = cv.imread("./img/par22.jpg")
 
 # ============================================================
 # CONFIGURACIÓN FAST
@@ -102,11 +102,19 @@ def detect_and_describe(image, descriptor_name):
     # Descriptor seleccionado
     descriptor = create_descriptor(descriptor_name)
 
-    # El descriptor utiliza  keypoints encontrados por FAST
-    keypoints, descriptors = descriptor.compute(
-        image,
-        keypoints
-    )
+    if descriptor_name.upper() == "AKAZE":
+        keypoints, descriptors = descriptor.detectAndCompute(
+            image,
+            None
+        )
+
+    else:
+
+        # El descriptor utiliza  keypoints encontrados por FAST
+        keypoints, descriptors = descriptor.compute(
+            image,
+            keypoints
+        )
 
     return keypoints, descriptors
 
@@ -179,7 +187,7 @@ def process_images(image1, image2, descriptor_name):
         "matches_data": matches
     }
 
-descriptor = "BRISK"
+descriptor = "FREAK"
 
 resultado = process_images(
     image1,
